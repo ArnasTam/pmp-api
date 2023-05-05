@@ -1,0 +1,13 @@
+import { getConnection } from 'typeorm';
+
+export const mockToken =
+  'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlNMd1RkX254TzhNcDZXRm43TndnNCJ9.eyJpc3MiOiJodHRwczovL2Rldi13ZjBxdHJldS5ldS5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDg4MTA4MDczNzg2ODU5Njg5OTUiLCJhdWQiOlsiaHR0cHM6Ly9kZXYtd2YwcXRyZXUuZXUuYXV0aDAuY29tL2FwaS92Mi8iLCJodHRwczovL2Rldi13ZjBxdHJldS5ldS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjgyMzYyNzg2LCJleHAiOjE2ODI0NDkxODYsImF6cCI6IldqTGRHR2xUcjhYM21mUGhSenduSHBhRDV6cUVDMVVZIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCJ9.X9ZMfYd02kNLNsLH6ocmxdatQ8_MMe2HJtub0fFayzqr5F3Deg4d_aWrmxCLlMM6fkcneAjupcfIZ_Zji3pefaLRmH_Vr0x_Dj4SACxP7BAbzhv2ciTquk7Du7qFo1OtRm1HFOBXRR7odU47buyznSSWfxN54Xp8F5p791zU4oUW9P0o4efTNRr-NzoEYh-ALwWxuTec_n_ptn81Nkhrd911qnSQjiIGQXlJoJk0rBOP69KUFzjMJJc1Z2pQJxPuEBRfDcNDY1BU2RYULK-MBtollLCSOiz2ZkSev4yt5ChNj_Az5hHmS_LbaHrbd3Djywt7GyW3tTLBLQoX2eVkDQ';
+export const mockUserId = 'google-oauth2|108810807378685968995';
+
+export async function clearDB() {
+  const entities = getConnection().entityMetadatas;
+  for (const entity of entities) {
+    const repository = await getConnection().getRepository(entity.name);
+    await repository.query(`TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`);
+  }
+}
